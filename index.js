@@ -3,25 +3,26 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-// 创建一个代理中间件，将 folgode.com 的请求代理到 aa.com
-const proxyMiddleware = createProxyMiddleware({
-  target: 'images.pexels.com',  // 目标代理地址
+// 创建一个代理中间件，将以 /photos 开头的请求代理到目标地址
+const photosProxy = createProxyMiddleware('/photos', {
+  target: 'http://aa.com',  // 目标代理地址
   changeOrigin: true,        // 更改请求头中的 Origin
-  // 其他可选配置项
+  pathRewrite: {
+    // 将 /photos 开头的请求重写为目标地址的不同路径（可选）
+    '^/photos': '/photos',  // 如果目标地址不需要重写路径，可以为空字符串
+  },
 });
 
-// 使用代理中间件来处理所有 folgode.com 的请求
-app.use('*', (req, res, next) => {
-  // 检查请求的主机名是否为 folgode.com
-  console.log("req.hostname", req.hostname);
-  if (req.hostname === 'pexels-proxy.folgode.com') {
-    // 使用代理中间件处理请求
-    proxyMiddleware(req, res, next);
-  } else {
-    // 如果请求的主机名不是 folgode.com，则继续正常的请求处理
-    next();
-  }
+// 使用代理中间件来处理以 /photos 开头的请求
+app.use('/photos', photosProxy);
+
+// 根目录路由处理函数，输出当前时间
+app.get('/', (req, res) => {
+  const currentTime = new Date().toLocaleString();  // 获取当前时间
+  res.send(`Current time is: ${currentTime}`);       // 返回当前时间到客户端
 });
+
+
 const port = process.env.PORT || 80;
 
 async function bootstrap() {
