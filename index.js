@@ -13,6 +13,7 @@ const proxyMiddleware = createProxyMiddleware({
 // 使用代理中间件来处理所有 folgode.com 的请求
 app.use('*', (req, res, next) => {
   // 检查请求的主机名是否为 folgode.com
+  console.log("req.hostname", req.hostname);
   if (req.hostname === 'pexels-proxy.folgode.com') {
     // 使用代理中间件处理请求
     proxyMiddleware(req, res, next);
