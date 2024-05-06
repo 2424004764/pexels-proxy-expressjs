@@ -19,8 +19,6 @@ app.get('/', (req, res) => {
 });
 
 
-const port = process.env.PORT || 80;
-
-app.listen(port, () => {
+app.listen(80, () => {
   console.log("启动成功", port);
 });
