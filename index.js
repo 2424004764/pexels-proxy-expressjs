@@ -12,6 +12,9 @@ try {
     pathRewrite: {
       // 将 /photos 开头的请求重写为目标地址的不同路径，保留 /photos
       '^/photos': '' // 保留 /photos 部分，只替换后面的部分
+    },
+    onProxyRes: function (proxyRes, req, res) {
+      proxyRes.headers['Cache-Control'] = 'no-store'; // 禁用浏览器缓存
     }
   });
 
