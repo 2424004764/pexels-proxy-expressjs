@@ -7,11 +7,11 @@ try {
 
   // 创建一个代理中间件，将以 /photos 开头的请求代理到目标地址
   const photosProxy = createProxyMiddleware({
-    target: "http://images.pexels.com",
+    target: "http://images.pexels.com/photos",
     changeOrigin: true, // 设置更改请求头中的 Origin
     pathRewrite: {
       // 将 /photos 开头的请求重写为目标地址的不同路径，保留 /photos
-      '^/photos': '/photos' // 保留 /photos 部分，只替换后面的部分
+      '^/photos': '' // 保留 /photos 部分，只替换后面的部分
     }
   });
 
