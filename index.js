@@ -20,7 +20,7 @@ try {
   });
 
   app.listen(80, () => {
-    console.log("启动成功", port);
+    console.log("启动成功");
   });
 } catch (error) {
   console.error('Failed to start application:', error);
