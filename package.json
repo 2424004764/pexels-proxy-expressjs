@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2424004764/pexels-proxy-expressjs.git"
+  },
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
