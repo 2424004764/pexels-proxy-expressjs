@@ -6,12 +6,18 @@ try {
   // 应用启动逻辑
 
   // 创建一个代理中间件，将以 /photos 开头的请求代理到目标地址
-  // const photosProxy = createProxyMiddleware('/photos', {
-  //   target: "http://images.pexels.com"
-  // });
+  const photosProxy = createProxyMiddleware({
+    target: "http://images.pexels.com",
+    changeOrigin: true, // 设置更改请求头中的 Origin
+    pathRewrite: {
+      // 将 /photos 开头的请求重写为目标地址的不同路径，保留 /photos
+      '^/photos': '/photos' // 保留 /photos 部分，只替换后面的部分
+    }
+  });
 
-  // // 使用代理中间件来处理以 /photos 开头的请求
-  // app.use('/photos', photosProxy);
+  // 使用代理中间件来处理以 /photos 开头的请求
+  app.use('/photos', photosProxy);
+
 
   // 根目录路由处理函数，输出当前时间
   app.get('/', (req, res) => {
@@ -20,7 +26,7 @@ try {
   });
 
   app.listen(80, () => {
-    console.log("启动成功");
+    console.log("启动成功4");
   });
 } catch (error) {
   console.error('Failed to start application:', error);
