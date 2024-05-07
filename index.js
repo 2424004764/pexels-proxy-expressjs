@@ -1,6 +1,17 @@
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const https = require('https');
+
+// 配置 TLS 设置，禁用 TLS 1.0
+// 配置 TLS 设置，禁用 TLS 1.0，仅允许 TLS 1.1 及以上版本
+const serverOptions = {
+  secureOptions: require('constants').SSL_OP_NO_TLSv1, // 禁用 TLS 1.0
+  minVersion: 'TLSv1.1', // 设置最小支持的 TLS 版本为 TLS 1.1
+};
+
 const app = express();
+// 启用 HTTPS 服务器，并应用 TLS 设置
+const server = https.createServer(serverOptions, app);
 
 try {
   // 应用启动逻辑
@@ -38,7 +49,7 @@ try {
     res.send(`Current time is: ${currentTime}`);       // 返回当前时间到客户端
   });
 
-  app.listen(80, () => {
+  server.listen(80, () => {
     console.log("启动成功4");
   });
 } catch (error) {
