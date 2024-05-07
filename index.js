@@ -18,6 +18,16 @@ try {
   // 使用代理中间件来处理以 /photos 开头的请求
   app.use('/photos', photosProxy);
 
+  const photosApiProxy = createProxyMiddleware({
+    target: "https://api.pexels.com",
+    changeOrigin: true,
+    pathRewrite: {
+      '^/pexels-api': ''
+    }
+  });
+
+  // 当请求pexels-api时也转发
+  app.use('/pexels-api', photosApiProxy);
 
   // 根目录路由处理函数，输出当前时间
   app.get('/', (req, res) => {
