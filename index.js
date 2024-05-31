@@ -12,6 +12,11 @@ try {
       // 将 /photos 开头的请求重写为目标地址的不同路径，保留 /photos
       '^/photos': '' // 保留 /photos 部分，只替换后面的部分
     },
+    onProxyRes: function (proxyRes, req, res) {
+      // 修改响应头信息，隐藏跳转细节
+      proxyRes.headers['X-Forwarded-Host'] = req.headers['host'];
+      proxyRes.headers['X-Forwarded-Proto'] = req.headers['x-forwarded-proto'] || 'http';
+    },
   });
 
   // 使用代理中间件来处理以 /photos 开头的请求
